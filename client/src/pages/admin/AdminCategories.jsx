@@ -127,41 +127,52 @@ const AdminCategories = () => {
           </div>
 
           {/* Categories Table - Mobile First Scroll Architecture */}
-          <div className="bg-card-bg rounded-[2.5rem] shadow-premium border border-border w-full overflow-hidden">
-            <div className="w-full overflow-x-auto no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
-              <div className="min-w-[800px]">
+          <div className="bg-card-bg rounded-[2.5rem] shadow-premium border border-border w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <table className="w-full text-left min-w-[800px]">
               {loading ? (
-                <div className="p-40 text-center">
-                  <div className="w-12 h-12 border-4 border-navy/5 border-t-terracotta rounded-full animate-spin mx-auto mb-6" />
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">Syncing Taxonomy...</p>
-                </div>
+                <tbody>
+                  <tr>
+                    <td colSpan="5">
+                      <div className="p-40 text-center">
+                        <div className="w-12 h-12 border-4 border-navy/5 border-t-terracotta rounded-full animate-spin mx-auto mb-6" />
+                        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">Syncing Taxonomy...</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
               ) : categories.length === 0 ? (
-                <div className="p-40 text-center">
-                  <Info size={48} className="mx-auto text-navy/5 mb-6" />
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">No taxonomies defined</p>
-                </div>
+                <tbody>
+                  <tr>
+                    <td colSpan="5">
+                      <div className="p-40 text-center">
+                        <Info size={48} className="mx-auto text-navy/5 mb-6" />
+                        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">No taxonomies defined</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
               ) : (
-                <table className="w-full text-left">
+                <>
                   <thead>
                     <tr className="bg-navy-fixed text-white">
-                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em]">Identity</th>
-                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em]">Classification</th>
-                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em]">Sub-taxons</th>
-                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em]">Sizing</th>
-                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em]">Operations</th>
+                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap">Identity</th>
+                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap">Classification</th>
+                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap">Sub-taxons</th>
+                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap">Sizing</th>
+                      <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap">Operations</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {categories.map((category) => (
                       <tr key={category._id} className="hover:bg-warm-white transition-colors group">
-                        <td className="px-10 py-6">
+                        <td className="px-10 py-6 whitespace-nowrap">
                           <span className="text-sm font-black text-navy uppercase tracking-widest">{category.name}</span>
                         </td>
-                        <td className="px-10 py-6">
+                        <td className="px-10 py-6 whitespace-nowrap">
                           <span className="text-[10px] font-bold text-navy/40 uppercase tracking-[0.2em]">{category.gender}</span>
                         </td>
-                        <td className="px-10 py-6">
-                          <div className="flex flex-wrap gap-2">
+                        <td className="px-10 py-6 whitespace-nowrap">
+                          <div className="flex flex-wrap gap-2 max-w-[250px]">
                             {category.subcategories.map((sub, idx) => (
                               <span key={idx} className="bg-navy/5 px-3 py-1.5 rounded-lg text-[9px] font-black text-navy uppercase tracking-widest border border-navy/5">
                                 {sub}
@@ -169,12 +180,12 @@ const AdminCategories = () => {
                             ))}
                           </div>
                         </td>
-                        <td className="px-10 py-6">
+                        <td className="px-10 py-6 whitespace-nowrap">
                           <div className={`w-fit px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest ${category.requiresSize ? 'bg-green-100 text-green-700' : 'bg-navy/5 text-navy/40'}`}>
                             {category.requiresSize ? 'Required' : 'None'}
                           </div>
                         </td>
-                        <td className="px-10 py-6">
+                        <td className="px-10 py-6 whitespace-nowrap">
                           <div className="flex items-center gap-6">
                             <button
                               onClick={() => openEditModal(category)}
@@ -195,10 +206,9 @@ const AdminCategories = () => {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </>
               )}
-              </div>
-            </div>
+            </table>
           </div>
         </div>
       </div>
