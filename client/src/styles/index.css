@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #fafaf7;
+    --bg-secondary: #ffffff;
+    --text-primary: #0f172a;
+    --text-muted: #64748b;
+    --accent: #c2714f;
+    --border: #e2e8f0;
+    --navy-fixed: #0f172a; /* Stays dark even in dark mode for specific buttons */
+  }
+
+  :root.dark {
+    --bg-primary: #020617;
+    --bg-secondary: #0f172a;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #e68d67;
+    --border: #1e293b;
+    --navy-fixed: #0f172a;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    @apply font-sans antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+    color: var(--text-primary);
+  }
+}
+
+@layer components {
+  .grain-overlay {
+    @apply fixed inset-0 pointer-events-none z-[9999] opacity-[0.03];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .transition-premium {
+    @apply transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)];
+  }
+
+  .btn-premium {
+    @apply relative px-8 py-4 bg-navy-fixed text-white text-[10px] font-black uppercase tracking-[0.4em] overflow-hidden transition-premium flex items-center justify-center gap-3 active:scale-[0.98];
+  }
+
+  .btn-premium::after {
+    @apply content-[''] absolute inset-0 bg-terracotta translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] -z-10;
+  }
+
+  .btn-premium:hover::after {
+    @apply translate-y-0;
+  }
+
+  .img-premium {
+    @apply transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:scale-110;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .header-glass {
+    background-color: rgba(250, 250, 247, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background-color 0.3s, backdrop-filter 0.3s;
+  }
+
+  :root.dark .header-glass {
+    background-color: rgba(2, 6, 23, 0.85);
+  }
+
+  .header-glass-scrolled {
+    background-color: rgba(250, 250, 247, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background-color 0.3s, backdrop-filter 0.3s;
+  }
+
+  :root.dark .header-glass-scrolled {
+    background-color: rgba(2, 6, 23, 0.98);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer {
+  @apply relative overflow-hidden;
+}
+
+.shimmer::after {
+  @apply content-[''] absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+  animation: shimmer 2s infinite;
+}
