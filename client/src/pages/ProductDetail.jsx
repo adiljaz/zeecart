@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useSettings } from '../context/SettingsContext';
 import { 
@@ -18,6 +18,7 @@ import { useWishlistStore } from '../store/useWishlistStore';
 const ProductDetail = () => {
   const { settings } = useSettings();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,8 +28,11 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [showStickyBar, setShowStickyBar] = useState(false);
   const addItem = useCartStore(state => state.addItem);
+  const removeItem = useCartStore(state => state.removeItem);
+  const isInCart = useCartStore(state => state.isInCart);
   const { toggleWishlist, isInWishlist } = useWishlistStore();
   const isWishlisted = product ? isInWishlist(product._id) : false;
+  const isProductInCart = product ? isInCart(product._id) : false;
 
   useEffect(() => {
     fetchProduct();
@@ -68,8 +72,13 @@ const ProductDetail = () => {
       toast.error('Please select a size first');
       return;
     }
-    addItem(product, quantity);
-    toast.success(`${product.name} added to cart`);
+    if (isProductInCart) {
+      removeItem(product._id, selectedSize);
+      toast.success(`${product.name} removed from cart`);
+    } else {
+      addItem(product, quantity, selectedSize);
+      toast.success(`${product.name} added to cart`);
+    }
   };
 
   const handleToggleWishlist = () => {
@@ -186,6 +195,18 @@ const ProductDetail = () => {
                   src={getImageUrl(images[selectedImage])} 
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 cursor-zoom-in" 
                 />
+                
+                {/* Wishlist Icon on Image */}
+                <button 
+                  onClick={handleToggleWishlist}
+                  className={`absolute top-4 right-4 z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    isWishlisted 
+                      ? 'bg-terracotta text-white shadow-lg shadow-terracotta/20 scale-110' 
+                      : 'bg-white/90 backdrop-blur-md text-navy hover:bg-white hover:text-terracotta hover:scale-110 shadow-sm'
+                  }`}
+                >
+                  <Heart size={20} fill={isWishlisted ? "currentColor" : "none"} strokeWidth={isWishlisted ? 0 : 1.5} />
+                </button>
               </div>
             </div>
           </div>
@@ -229,23 +250,25 @@ const ProductDetail = () => {
 
               {/* Variant Selector */}
               <div className="space-y-8 mb-10">
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <h4 className="text-[10px] uppercase tracking-widest font-black text-navy">Select Size</h4>
-                    <button className="text-[10px] font-black uppercase tracking-widest text-terracotta hover:underline">Size Guide</button>
+                {product.sizes && product.sizes.length > 0 && (
+                  <div>
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="text-[10px] uppercase tracking-widest font-black text-navy">Select Size</h4>
+                      <button className="text-[10px] font-black uppercase tracking-widest text-terracotta hover:underline">Size Guide</button>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                      {product.sizes.map((size) => (
+                        <button 
+                          key={size}
+                          onClick={() => setSelectedSize(size)}
+                          className={`min-w-14 px-3 h-14 flex items-center justify-center text-xs font-bold transition-premium border ${selectedSize === size ? 'border-navy-fixed bg-navy-fixed text-white shadow-xl' : 'border-border text-navy/40 hover:border-navy'}`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-3">
-                    {['S', 'M', 'L', 'XL', '2XL'].map((size) => (
-                      <button 
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`w-14 h-14 flex items-center justify-center text-xs font-bold transition-premium border ${selectedSize === size ? 'border-navy-fixed bg-navy-fixed text-white shadow-xl' : 'border-border text-navy/40 hover:border-navy'}`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                )}
 
                 <div>
                   <h4 className="text-[10px] uppercase tracking-widest font-black text-navy mb-4">Quantity</h4>
@@ -266,19 +289,45 @@ const ProductDetail = () => {
               )}
 
               {/* Actions */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <div className="flex flex-col gap-4 mb-8">
                 <button 
                   onClick={handleAddToCart}
-                  className="flex-[3] btn-premium h-16 shadow-2xl flex items-center justify-center gap-3"
+                  className={`w-full btn-premium h-16 shadow-2xl flex items-center justify-center gap-3 ${
+                    isProductInCart ? '!bg-terracotta' : ''
+                  }`}
                 >
-                  <ShoppingCart size={20} /> Add to Cart
+                  <ShoppingCart size={20} fill={isProductInCart ? "currentColor" : "none"} /> {isProductInCart ? 'Remove from Cart' : 'Add to Cart'}
                 </button>
-                <button 
-                  onClick={handleToggleWishlist}
-                  className={`flex-1 h-16 border flex items-center justify-center transition-premium ${isWishlisted ? 'bg-terracotta text-white border-terracotta' : 'border-navy-fixed text-navy-fixed hover:bg-navy-fixed hover:text-white'}`}
-                >
-                  <Heart size={24} fill={isWishlisted ? "currentColor" : "none"} strokeWidth={isWishlisted ? 0 : 1.5} />
-                </button>
+                {!isProductInCart && (
+                  <button 
+                    onClick={() => { handleAddToCart(); navigate('/checkout'); }}
+                    className="w-full h-16 border border-navy text-navy text-[10px] font-black uppercase tracking-[0.4em] hover:bg-navy hover:text-white transition-premium flex items-center justify-center gap-3"
+                  >
+                    Buy it Now
+                  </button>
+                )}
+              </div>
+
+              {/* Trust Badges */}
+              <div className="grid grid-cols-3 gap-4 py-8 border-y border-border mb-10">
+                <div className="flex flex-col items-center justify-center gap-3 text-center group">
+                  <div className="w-12 h-12 rounded-full bg-navy/5 flex items-center justify-center text-navy group-hover:bg-navy group-hover:text-white transition-colors">
+                    <Truck size={20} strokeWidth={1.5} />
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-navy/60">Free Global Delivery</span>
+                </div>
+                <div className="flex flex-col items-center justify-center gap-3 text-center group">
+                  <div className="w-12 h-12 rounded-full bg-navy/5 flex items-center justify-center text-navy group-hover:bg-navy group-hover:text-white transition-colors">
+                    <RotateCcw size={20} strokeWidth={1.5} />
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-navy/60">30-Day Free Returns</span>
+                </div>
+                <div className="flex flex-col items-center justify-center gap-3 text-center group">
+                  <div className="w-12 h-12 rounded-full bg-navy/5 flex items-center justify-center text-navy group-hover:bg-navy group-hover:text-white transition-colors">
+                    <ShieldCheck size={20} strokeWidth={1.5} />
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-navy/60">100% Secure Checkout</span>
+                </div>
               </div>
             </div>
           </div>
@@ -387,9 +436,11 @@ const ProductDetail = () => {
                 </div>
                 <button 
                   onClick={handleAddToCart}
-                  className="flex-1 sm:px-12 h-12 bg-navy-fixed text-white text-[10px] font-black uppercase tracking-widest hover:bg-terracotta transition-premium"
+                  className={`flex-1 sm:px-12 h-12 text-white text-[10px] font-black uppercase tracking-widest hover:bg-terracotta transition-premium ${
+                    isProductInCart ? 'bg-terracotta' : 'bg-navy-fixed'
+                  }`}
                 >
-                  Add to Cart
+                  {isProductInCart ? 'Remove from Cart' : 'Add to Cart'}
                 </button>
               </div>
             </div>

@@ -48,19 +48,19 @@ const AdminDashboardPage = () => {
       </Helmet>
       <div className="flex bg-warm-white min-h-screen">
         <AdminSidebar />
-        <div className="flex-1 p-8 overflow-y-auto">
-          <div className="flex justify-between items-center mb-10">
+        <div className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 pt-20 md:pt-0">
             <div>
-              <h1 className="text-4xl font-serif font-black text-navy mb-2">Command Center</h1>
-              <p className="text-navy/40 text-xs font-bold uppercase tracking-widest">Real-time Inventory & Analytics</p>
+              <h1 className="text-3xl md:text-4xl font-serif font-black text-navy mb-2">Command Center</h1>
+              <p className="text-navy/40 text-[10px] md:text-xs font-bold uppercase tracking-widest">Real-time Inventory & Analytics</p>
             </div>
-            <div className="flex items-center gap-3 bg-card-bg px-6 py-3 rounded-full shadow-premium border border-border">
+            <div className="flex items-center gap-3 bg-card-bg px-5 md:px-6 py-2 md:py-3 rounded-full shadow-premium border border-border self-start md:self-auto">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[10px] font-black text-navy uppercase tracking-widest">Systems Online</span>
+              <span className="text-[9px] md:text-[10px] font-black text-navy uppercase tracking-widest">Systems Online</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             <div className="bg-card-bg p-8 rounded-3xl shadow-premium border border-border group hover:border-terracotta transition-premium">
               <h3 className="text-[10px] font-black uppercase tracking-widest text-navy/40 mb-4 group-hover:text-terracotta transition-colors">Total Products</h3>
               <p className="text-4xl font-serif font-black text-navy leading-none">{stats.totalProducts}</p>

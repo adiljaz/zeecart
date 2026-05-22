@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Mic, X, TrendingUp, History, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 import { useSearchStore } from '../store/useSearchStore';
 import { useDebounce } from '../hooks/useDebounce';
 import { getImageUrl } from '../utils/imageUtils';
 import api from '../api';
 
-const SearchBar = () => {
+const SearchBar = ({ onNavigate }) => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -44,6 +45,7 @@ const SearchBar = () => {
       addRecentSearch(query.trim());
       navigate(`/products?search=${query.trim()}`);
       setIsFocused(false);
+      onNavigate?.();
     }
   };
 
@@ -64,8 +66,17 @@ const SearchBar = () => {
         addRecentSearch(transcript);
         navigate(`/products?search=${encodeURIComponent(transcript)}`);
         setIsFocused(false);
+        onNavigate?.();
       };
       recognition.onend = () => setIsListening(false);
+      recognition.onerror = (event) => {
+        setIsListening(false);
+        if (event.error === 'not-allowed') {
+          toast.error('Microphone access denied. Please enable it in browser settings.');
+        } else {
+          toast.error(`Voice search error: ${event.error}`);
+        }
+      };
       recognition.start();
     } else {
       toast.error('Voice search is not supported in this browser.');
@@ -143,7 +154,7 @@ const SearchBar = () => {
                       {recentSearches.map((item, index) => (
                         <button
                           key={index}
-                          onClick={() => { setQuery(item); navigate(`/products?search=${item}`); setIsFocused(false); }}
+                          onClick={() => { setQuery(item); navigate(`/products?search=${item}`); setIsFocused(false); onNavigate?.(); }}
                           className="px-3 py-1.5 bg-warm-white text-xs text-navy hover:bg-navy-fixed hover:text-white transition-premium rounded-full"
                         >
                           {item}
@@ -160,7 +171,7 @@ const SearchBar = () => {
                     {trending.map((item, index) => (
                       <button
                         key={index}
-                        onClick={() => { setQuery(item); navigate(`/products?search=${item}`); setIsFocused(false); }}
+                        onClick={() => { setQuery(item); navigate(`/products?search=${item}`); setIsFocused(false); onNavigate?.(); }}
                         className="flex items-center gap-3 text-xs text-navy/60 hover:text-navy transition-premium w-full group"
                       >
                         <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
@@ -192,7 +203,7 @@ const SearchBar = () => {
                     {suggestions.map((item) => (
                       <button
                         key={item._id}
-                        onClick={() => { navigate(`/products/${item._id}`); setIsFocused(false); }}
+                        onClick={() => { navigate(`/products/${item._id}`); setIsFocused(false); onNavigate?.(); }}
                         className="w-full flex items-center gap-4 px-4 py-3 hover:bg-warm-white transition-premium group text-left"
                       >
                         <div className="w-12 h-12 flex-shrink-0 bg-card-bg overflow-hidden">
@@ -209,7 +220,7 @@ const SearchBar = () => {
                       </button>
                     ))}
                     <button
-                      onClick={handleSearch}
+                      onClick={(e) => { handleSearch(e); onNavigate?.(); }}
                       className="w-full p-4 border-t border-border text-xs font-bold text-navy hover:text-terracotta transition-premium flex items-center justify-center gap-2"
                     >
                       See all results for "{query}" <ArrowRight size={14} />

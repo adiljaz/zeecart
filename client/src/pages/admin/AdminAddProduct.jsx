@@ -184,7 +184,7 @@ const AdminAddProduct = () => {
       </Helmet>
       <div className="flex bg-warm-white min-h-screen">
         <AdminSidebar />
-        <div className="flex-1 p-8 overflow-y-auto">
+        <div className="flex-1 p-4 md:p-8 overflow-x-hidden">
           {showCropper && (
             <ImageCropperModal
               image={imageToCrop}
@@ -193,14 +193,14 @@ const AdminAddProduct = () => {
             />
           )}
 
-          <div className="flex justify-between items-center mb-10">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10 pt-20 md:pt-0">
             <div>
-              <h1 className="text-4xl font-serif font-black text-navy mb-2">{isEdit ? 'Edit' : 'Add New'} Product</h1>
-              <p className="text-navy/40 text-xs font-bold uppercase tracking-widest">Premium Inventory Management</p>
+              <h1 className="text-3xl md:text-4xl font-serif font-black text-navy mb-2">{isEdit ? 'Edit' : 'Add New'} Product</h1>
+              <p className="text-navy/40 text-[10px] md:text-xs font-bold uppercase tracking-widest">Premium Inventory Management</p>
             </div>
-            <div className="flex items-center gap-3 bg-card-bg px-6 py-3 rounded-full shadow-premium border border-border">
+            <div className="flex items-center gap-3 bg-card-bg px-5 md:px-6 py-2 md:py-3 rounded-full shadow-premium border border-border">
               <Sparkles size={18} className="text-terracotta animate-pulse" />
-              <span className="text-xs font-black text-navy uppercase tracking-widest">Builder Mode Active</span>
+              <span className="text-[9px] md:text-xs font-black text-navy uppercase tracking-widest">Builder Mode Active</span>
             </div>
           </div>
           

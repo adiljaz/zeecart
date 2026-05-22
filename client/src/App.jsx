@@ -73,7 +73,7 @@ const AppContent = () => {
   }, [isAdmin, syncCart, syncWishlist]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen w-full max-w-full overflow-x-hidden">
       <ScrollToTop />
       {!isAdmin && <Header />}
       <main className="flex-1">

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="description"
+    content="Experience world-class modern e-commerce with Zee Cart. Discover premium products and seamless shopping.">
+  <title>Zee Cart | Premium Experience</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================
+       CSS CUSTOM PROPERTIES (VARIABLES)
+       ========================================= */
+    :root {
+      /* Colors */
+      --color-bg: #fafaf7;
+      --color-surface: #ffffff;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-primary: #0f172a;
+      /* Navy */
+      --color-accent: #c2714f;
+      /* Terracotta */
+      --color-border: #e2e8f0;
+
+      /* Spacing Scale (8px system) */
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --space-6: 48px;
+      --space-8: 64px;
+      --space-12: 96px;
+
+      /* Fluid Typography (clamp) */
+      --font-size-sm: clamp(0.8rem, 0.17vw + 0.76rem, 0.89rem);
+      --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+      --font-size-md: clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem);
+      --font-size-lg: clamp(1.56rem, 1vw + 1.31rem, 2.11rem);
+      --font-size-xl: clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem);
+      --font-size-2xl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
+      --font-size-3xl: clamp(3.05rem, 3.54vw + 2.17rem, 5rem);
+
+      /* Layout */
+      --container-width: 1200px;
+      --nav-height: 80px;
+
+      /* Transitions */
+      --transition-smooth: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #0f172a;
+        --color-surface: #1e293b;
+        --color-text: #f8fafc;
+        --color-text-muted: #94a3b8;
+        --color-primary: #f8fafc;
+        --color-border: #334155;
+      }
+    }
+
+    /* =========================================
+       CSS RESET & BASE STYLES
+       ========================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    picture,
+    svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      border: none;
+      background: none;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    ul[role="list"] {
+      list-style: none;
+    }
+
+    /* Skip to content link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-primary);
+      color: white;
+      padding: 8px;
+      z-index: 1000;
+      transition: top 0.2s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* =========================================
+       UTILITIES & COMPONENTS
+       ========================================= */
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--space-3);
+    }
+
+    .section {
+      padding: var(--space-12) 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-2) var(--space-4);
+      background-color: var(--color-primary);
+      color: white;
+      font-weight: 700;
+      font-size: var(--font-size-base);
+      border-radius: 4px;
+      transition: background-color var(--transition-smooth), transform 0.2s;
+      min-height: 44px;
+      /* Accessible touch target */
+      min-width: 44px;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      background-color: var(--color-accent);
+      transform: translateY(-2px);
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+      background-color: var(--color-primary);
+      color: white;
+    }
+
+    /* Scroll Animation Utility */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-up.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================
+       HEADER & NAVIGATION
+       ========================================= */
+    .site-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: var(--nav-height);
+      background-color: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 100;
+      transition: box-shadow var(--transition-smooth);
+    }
+
+    .site-header.is-scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .logo {
+      font-size: var(--font-size-lg);
+      font-weight: 900;
+      color: var(--color-primary);
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: var(--color-accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      font-size: var(--font-size-base);
+      color: var(--color-text);
+      transition: color var(--transition-smooth);
+      position: relative;
+      padding: var(--space-1);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-accent);
+      transition: width var(--transition-smooth);
+    }
+
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after {
+      width: 100%;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      color: var(--color-accent);
+      outline: none;
+    }
+
+    /* Mobile Hamburger */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 32px;
+      height: 32px;
+      z-index: 101;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-primary);
+      transition: var(--transition-smooth);
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-menu {
+        display: flex;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 400px;
+        height: 100vh;
+        background-color: var(--color-surface);
+        z-index: 1001; /* Ensure it is above other elements */
+        flex-direction: column;
+        justify-content: center;
+        padding: var(--space-8);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        transition: right var(--transition-smooth);
+      }
+
+      .nav-menu.is-open {
+        right: 0;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: var(--space-6);
+        width: 100%;
+      }
+
+      /* Hamburger animation */
+      .menu-toggle.is-open span:nth-child(1) {
+        transform: translateY(10px) rotate(45deg);
+      }
+
+      .menu-toggle.is-open span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.is-open span:nth-child(3) {
+        transform: translateY(-10px) rotate(-45deg);
+      }
+    }
+
+    /* =========================================
+       HERO SECTION
+       ========================================= */
+    .hero {
+      padding-top: calc(var(--nav-height) + var(--space-12));
+      padding-bottom: var(--space-12);
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+      align-items: center;
+    }
+
+    @media (min-width: 1025px) {
+      .hero-grid {
+        grid-template-columns: 1.2fr 1fr;
+      }
+    }
+
+    .hero-content h1 {
+      font-size: var(--font-size-display);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-content p {
+      font-size: var(--font-size-md);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-6);
+      max-width: 600px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .hero-image {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+    }
+
+    @media (min-width: 1025px) {
+      .hero-image {
+        aspect-ratio: 3/4;
+      }
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* =========================================
+       FEATURES SECTION
+       ========================================= */
+    .features {
+      background-color: var(--color-surface);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-12);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-header h2 {
+      font-size: var(--font-size-xxl);
+      margin-bottom: var(--space-2);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    @media (min-width: 768px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .feature-card {
+      padding: var(--space-6);
+      background-color: var(--color-bg);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background-color: var(--color-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      margin-bottom: var(--space-4);
+    }
+
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: var(--font-size-lg);
+      margin-bottom: var(--space-2);
+    }
+
+    /* =========================================
+       TESTIMONIALS SECTION
+       ========================================= */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    @media (min-width: 1025px) {
+      .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .testimonial-card {
+      background-color: var(--color-surface);
+      padding: var(--space-6);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .testimonial-quote {
+      font-size: var(--font-size-md);
+      font-style: italic;
+      color: var(--color-text);
+      flex-grow: 1;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .author-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .author-info h4 {
+      font-size: var(--font-size-base);
+      font-weight: 700;
+    }
+
+    .author-info p {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+    }
+
+    /* =========================================
+       CTA SECTION
+       ========================================= */
+    .cta {
+      background-color: var(--color-primary);
+      color: white;
+      text-align: center;
+      padding: var(--space-12) 0;
+    }
+
+    .cta h2 {
+      font-size: var(--font-size-display);
+      color: white;
+      margin-bottom: var(--space-4);
+    }
+
+    .cta p {
+      font-size: var(--font-size-md);
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: var(--space-6);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta .btn {
+      background-color: white;
+      color: var(--color-primary);
+    }
+
+    .cta .btn:hover {
+      background-color: var(--color-accent);
+      color: white;
+      outline-color: white;
+    }
+
+    /* =========================================
+       FOOTER
+       ========================================= */
+    .site-footer {
+      background-color: var(--color-surface);
+      padding: var(--space-8) 0 var(--space-4);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+      }
+    }
+
+    .footer-brand p {
+      color: var(--color-text-muted);
+      margin-top: var(--space-2);
+      max-width: 300px;
+    }
+
+    .footer-links h4 {
+      font-size: var(--font-size-base);
+      margin-bottom: var(--space-3);
+    }
+
+    .footer-links ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .footer-links a {
+      color: var(--color-text-muted);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-accent);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--color-border);
+      padding-top: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header class="site-header" id="header" role="banner">
+    <div class="container nav-container">
+      <a href="#" class="logo" aria-label="Zee Cart Home">Zee Cart</a>
+
+      <nav id="nav-menu" class="nav-menu" aria-label="Main Navigation">
+        <ul role="list" class="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+          <li><a href="#cta" class="nav-link btn" style="color:white; padding: 8px 16px;">Shop Now</a></li>
+        </ul>
+      </nav>
+
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="nav-menu"
+        aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- HERO SECTION -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-content fade-up">
+          <h1 id="hero-title">Elevate Your Shopping Experience.</h1>
+          <p>Discover a world of premium products, curated collections, and seamless checkout. The future of commerce is
+            here.</p>
+          <div class="hero-actions">
+            <a href="#features" class="btn">Explore Features</a>
+            <a href="#testimonials" class="btn btn-secondary">Read Reviews</a>
+          </div>
+        </div>
+        <div class="hero-image fade-up" style="transition-delay: 0.2s;">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800"
+            srcset="
+              https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=400 400w,
+              https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800 800w,
+              https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200 1200w"
+            sizes="(max-width: 1024px) 100vw, 50vw" alt="Fashion model wearing premium clothing" fetchpriority="high">
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="section features" aria-labelledby="features-title">
+      <div class="container">
+        <header class="section-header fade-up">
+          <h2 id="features-title">Why Choose Zee Cart?</h2>
+          <p>We built our platform from the ground up to ensure lightning-fast performance, elite security, and
+            beautiful aesthetics.</p>
+        </header>
+
+        <div class="features-grid">
+          <article class="feature-card fade-up">
+            <div class="feature-icon">
+              <!-- SVG Lightning Bolt -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3>Blazing Fast</h3>
+            <p>Our optimized infrastructure ensures sub-second page loads so you never wait to checkout.</p>
+          </article>
+
+          <article class="feature-card fade-up" style="transition-delay: 0.1s;">
+            <div class="feature-icon">
+              <!-- SVG Shield -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3>Bank-Grade Security</h3>
+            <p>Your data is protected with industry-leading encryption and secure payment gateways.</p>
+          </article>
+
+          <article class="feature-card fade-up" style="transition-delay: 0.2s;">
+            <div class="feature-icon">
+              <!-- SVG Smartphone -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+            </div>
+            <h3>Fully Responsive</h3>
+            <p>Shop seamlessly from your mobile, tablet, or desktop with a flawless UI experience.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="section" aria-labelledby="testimonials-title">
+      <div class="container">
+        <header class="section-header fade-up">
+          <h2 id="testimonials-title">Trusted by Thousands</h2>
+          <p>Don't just take our word for it. Here is what our premium customers have to say.</p>
+        </header>
+
+        <div class="testimonials-grid">
+          <article class="testimonial-card fade-up">
+            <p class="testimonial-quote">"The user experience is unmatched. I was able to find exactly what I needed and
+              check out in less than a minute. Highly recommend!"</p>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+                alt="Sarah Jenkins" class="author-img" loading="lazy">
+              <div class="author-info">
+                <h4>Sarah Jenkins</h4>
+                <p>Verified Buyer</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card fade-up" style="transition-delay: 0.1s;">
+            <p class="testimonial-quote">"Finally, a store that works flawlessly on my phone. The design is beautiful
+              and the product quality exceeded my expectations."</p>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+                alt="David Chen" class="author-img" loading="lazy">
+              <div class="author-info">
+                <h4>David Chen</h4>
+                <p>Loyal Customer</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section id="cta" class="section cta" aria-labelledby="cta-title">
+      <div class="container fade-up">
+        <h2 id="cta-title">Ready to upgrade your style?</h2>
+        <p>Join thousands of satisfied customers who have revolutionized their wardrobe with Zee Cart. Start shopping
+          our latest collection today.</p>
+        <a href="/" class="btn">Explore the Store</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">Zee Cart</a>
+          <p>Redefining modern luxury through curated essentials and timeless designs.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Platform</h4>
+          <ul role="list">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="/">Main Store</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul role="list">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Zee Cart. All rights reserved.</p>
+        <p>Designed for the modern web.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================
+       VANILLA JS SCRIPT
+       ========================================= -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // 1. Header scroll effect
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          header.classList.add('is-scrolled');
+        } else {
+          header.classList.remove('is-scrolled');
+        }
+      }, { passive: true });
+
+      // 2. Mobile Menu Toggle & Keyboard Trap
+      const menuToggle = document.getElementById('menu-toggle');
+      const navMenu = document.getElementById('nav-menu');
+      const focusableElements = navMenu.querySelectorAll('a, button');
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      const toggleMenu = () => {
+        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', !isExpanded);
+        menuToggle.classList.toggle('is-open');
+        navMenu.classList.toggle('is-open');
+
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = !isExpanded ? 'hidden' : '';
+
+        if (!isExpanded) {
+          // Focus first element on open
+          setTimeout(() => firstFocusable?.focus(), 100);
+        } else {
+          // Return focus to toggle on close
+          menuToggle.focus();
+        }
+      };
+
+      menuToggle.addEventListener('click', toggleMenu);
+
+      // Close menu when clicking a link
+      navMenu.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' && navMenu.classList.contains('is-open')) {
+          toggleMenu();
+        }
+      });
+
+      // Keyboard Trap inside menu
+      navMenu.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          toggleMenu();
+        }
+        if (e.key === 'Tab' && navMenu.classList.contains('is-open')) {
+          if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+              lastFocusable.focus();
+              e.preventDefault();
+            }
+          } else {
+            if (document.activeElement === lastFocusable) {
+              firstFocusable.focus();
+              e.preventDefault();
+            }
+          }
+        }
+      });
+
+      // 3. Intersection Observer for Scroll Animations
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); // Only animate once
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.fade-up').forEach(element => {
+        observer.observe(element);
+      });
+
+    });
+  </script>
+</body>
+
+</html>

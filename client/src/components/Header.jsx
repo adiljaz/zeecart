@@ -37,10 +37,8 @@ const Header = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-header transition-all duration-300 ${
-        isScrolled 
-          ? 'header-glass-scrolled shadow-premium' 
-          : 'header-glass'
+      className={`fixed top-0 left-0 right-0 z-header transition-all duration-300 bg-card-bg ${
+        isScrolled ? 'shadow-premium' : ''
       } border-b border-border`}
     >
       <div className={`max-w-[1600px] mx-auto h-full px-4 md:px-12 flex items-center justify-between gap-2 md:gap-12 transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
@@ -61,13 +59,6 @@ const Header = () => {
               className="text-2xl md:text-3xl font-serif font-black tracking-tighter text-navy uppercase italic"
             >
               {settings?.storeName || 'Zee Cart'}
-              <motion.span 
-                animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
-                transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-                className="text-terracotta not-italic inline-block ml-0.5"
-              >
-                .
-              </motion.span>
             </motion.span>
           </Link>
         </div>
@@ -81,13 +72,6 @@ const Header = () => {
               className="text-xl md:text-3xl font-serif font-black tracking-tighter text-navy uppercase italic"
             >
               {settings?.storeName || 'Zee Cart'}
-              <motion.span 
-                animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
-                transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-                className="text-terracotta not-italic inline-block ml-0.5"
-              >
-                .
-              </motion.span>
             </motion.span>
           </Link>
 
@@ -132,7 +116,7 @@ const Header = () => {
 
             {/* Wishlist */}
             <motion.div whileHover={{ scale: 1.12 }} whileTap={{ scale: 0.95 }}>
-              <Link to="/wishlist" className="relative p-2 hover:text-terracotta transition-colors" title="Wishlist">
+              <Link to="/wishlist" className="relative flex items-center justify-center p-2 hover:text-terracotta transition-colors" title="Wishlist">
                 <Heart size={20} strokeWidth={1.5} />
                 {wishlistCount > 0 && (
                   <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-terracotta text-white text-[8px] flex items-center justify-center rounded-full font-black">
@@ -146,7 +130,7 @@ const Header = () => {
             <motion.div whileHover={{ scale: 1.12, rotate: [-3, 3, -3, 0] }} whileTap={{ scale: 0.95 }}>
               <button 
                 onClick={() => useCartStore.getState().setDrawerOpen(true)}
-                className="relative p-2 hover:text-terracotta transition-colors"
+                className="relative flex items-center justify-center p-2 hover:text-terracotta transition-colors"
                 title="Shopping Cart"
               >
                 <ShoppingBag size={20} strokeWidth={1.5} />
@@ -208,54 +192,83 @@ const Header = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-navy-fixed/60 backdrop-blur-md z-[2001]"
+              className="fixed inset-0 bg-navy-fixed/80 backdrop-blur-sm z-[2001]"
             />
             <motion.div 
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed top-0 left-0 bottom-0 w-[85%] max-w-sm bg-warm-white dark:bg-card-bg z-[2002] p-10 flex flex-col shadow-2xl"
+              exit={{ x: '-100%', transition: { duration: 0.3 } }}
+              transition={{ type: 'spring', damping: 25, stiffness: 250 }}
+              className="fixed top-0 left-0 bottom-0 w-[85%] max-w-[360px] bg-[#fafaf7] dark:bg-[#0f172a] z-[2002] p-8 flex flex-col shadow-[20px_0_40px_rgba(0,0,0,0.2)] border-r border-navy/5 dark:border-white/5"
             >
-              <div className="flex justify-between items-center mb-16">
-                <span className="text-3xl font-serif font-black text-navy dark:text-white uppercase italic">{settings?.storeName || 'Zee Cart'}</span>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-navy/20 dark:text-white/20 hover:text-navy dark:hover:text-white transition-colors">
-                  <X size={28} />
+              <div className="flex justify-between items-center mb-12">
+                <span className="text-2xl font-serif font-black text-navy dark:text-white uppercase tracking-tighter italic">
+                  {settings?.storeName || 'Zee Cart'}
+                </span>
+                <button 
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  className="p-3 bg-navy/5 dark:bg-white/5 rounded-full text-navy dark:text-white hover:bg-terracotta hover:text-white transition-colors"
+                >
+                  <X size={20} strokeWidth={2} />
                 </button>
               </div>
 
-              <nav className="flex flex-col gap-6">
+              <motion.nav 
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                variants={{
+                  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+                  hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } }
+                }}
+                className="flex flex-col gap-2"
+              >
                 {mainLinks.map((link) => (
-                  <Link
+                  <motion.div 
                     key={link.name}
-                    to={link.path}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-lg font-black uppercase tracking-[0.2em] text-navy dark:text-white hover:text-terracotta transition-colors border-b border-navy/5 dark:border-white/5 pb-4"
+                    variants={{
+                      hidden: { opacity: 0, x: -20 },
+                      show: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+                    }}
                   >
-                    {link.name}
-                  </Link>
+                    <Link
+                      to={link.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="group flex items-center justify-between p-4 rounded-xl text-lg font-black uppercase tracking-[0.2em] text-navy dark:text-white hover:bg-terracotta/10 hover:text-terracotta transition-all"
+                    >
+                      <span>{link.name}</span>
+                      <span className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-terracotta">
+                        →
+                      </span>
+                    </Link>
+                  </motion.div>
                 ))}
-              </nav>
+              </motion.nav>
 
-              <div className="mt-auto pt-10 border-t border-navy/5 dark:border-white/5 space-y-4">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="mt-auto pt-8 border-t border-navy/10 dark:border-white/10 space-y-3"
+              >
                 <button 
                   onClick={() => {
                     toggleTheme();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-navy/40 dark:text-white/40 hover:text-navy dark:hover:text-white transition-colors"
+                  className="w-full flex items-center justify-center gap-3 p-4 rounded-xl bg-navy/5 dark:bg-white/5 text-xs font-black uppercase tracking-widest text-navy dark:text-white hover:bg-navy hover:text-white dark:hover:bg-white dark:hover:text-navy transition-colors"
                 >
-                  {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />} 
+                  {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />} 
                   {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                 </button>
                 <Link 
                   to="/admin" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-navy/40 dark:text-white/40 hover:text-navy dark:hover:text-white transition-colors"
+                  className="w-full flex items-center justify-center gap-3 p-4 rounded-xl border border-navy/10 dark:border-white/10 text-xs font-black uppercase tracking-widest text-navy/60 dark:text-white/60 hover:text-navy dark:hover:text-white transition-colors"
                 >
-                  <User size={20} /> Staff Portal
+                  <User size={18} /> Staff Portal
                 </Link>
-              </div>
+              </motion.div>
             </motion.div>
           </>
         )}

@@ -26,7 +26,12 @@ const AdminLoginPage = () => {
       toast.success('ACCESS GRANTED - WELCOME ADMIN');
       navigate('/admin/dashboard');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'INVALID CREDENTIALS - ACCESS DENIED');
+      console.error("Login Error Details:", err);
+      if (err.response) {
+        toast.error(`FAILED (${err.response.status}): Trying to reach ${api.defaults.baseURL}. Server replied: ${err.response?.data?.message || 'No message'}`);
+      } else {
+        toast.error(`NETWORK ERROR: Cannot reach ${api.defaults.baseURL}. (${err.message})`);
+      }
     } finally {
       setIsLoading(false);
     }

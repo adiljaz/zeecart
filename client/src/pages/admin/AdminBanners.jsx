@@ -173,15 +173,15 @@ const AdminBanners = () => {
       </Helmet>
       <div className="flex bg-warm-white min-h-screen">
         <AdminSidebar />
-        <div className="flex-1 p-8 lg:p-12 overflow-y-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+        <div className="flex-1 p-4 md:p-8 lg:p-12 overflow-x-hidden">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 w-full pt-20 md:pt-0">
             <div>
-              <h1 className="text-4xl font-serif font-black text-navy mb-2">Visual Merchandising</h1>
+              <h1 className="text-3xl md:text-4xl font-serif font-black text-navy mb-2">Visual Merchandising</h1>
               <p className="text-navy/40 text-[10px] font-black uppercase tracking-[0.4em] mt-1">Dynamic Banners & Hero Assets</p>
             </div>
             <button
               onClick={() => handleOpenModal()}
-              className="px-8 py-4 bg-navy-fixed text-white text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-3 hover:bg-terracotta transition-premium shadow-2xl"
+              className="w-full md:w-auto justify-center px-8 py-4 bg-navy-fixed text-white text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-3 hover:bg-terracotta transition-premium shadow-2xl"
             >
               <Plus size={16} /> Create New Banner
             </button>
@@ -250,10 +250,10 @@ const AdminBanners = () => {
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 50, scale: 0.95 }}
-              className="relative w-full max-w-2xl bg-card-bg rounded-[3rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-2xl bg-card-bg rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-10 lg:p-12">
-                <div className="flex justify-between items-center mb-10">
+              <div className="p-6 md:p-10 lg:p-12">
+                <div className="flex justify-between items-center mb-8 md:mb-10">
                   <h2 className="text-3xl font-serif font-black text-navy">{editingBanner ? 'Refine Banner' : 'New Aesthetic Banner'}</h2>
                   <button onClick={() => setIsModalOpen(false)} className="text-navy/20 hover:text-navy transition-colors">
                     <X size={28} />

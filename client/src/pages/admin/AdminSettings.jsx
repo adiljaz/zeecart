@@ -68,24 +68,24 @@ const AdminSettings = () => {
       </Helmet>
       <div className="flex bg-warm-white min-h-screen">
         <AdminSidebar />
-        <div className="flex-1 p-8 lg:p-12 overflow-y-auto">
+        <div className="flex-1 p-4 md:p-8 lg:p-12 overflow-x-hidden">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-4xl"
           >
-            <div className="flex items-center gap-4 mb-12">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8 md:mb-12 pt-20 md:pt-0">
               <div className="p-4 bg-navy-fixed text-white rounded-2xl shadow-xl">
                 <Settings size={32} strokeWidth={1.5} />
               </div>
               <div>
-                <h1 className="text-4xl font-serif font-black text-navy tracking-tight">System Configuration</h1>
+                <h1 className="text-3xl md:text-4xl font-serif font-black text-navy tracking-tight">System Configuration</h1>
                 <p className="text-navy/40 text-[10px] font-black uppercase tracking-[0.4em] mt-1">Core Business Parameters</p>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="bg-card-bg rounded-[2.5rem] p-10 shadow-premium border border-border space-y-10">
+              <div className="bg-card-bg rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 shadow-premium border border-border space-y-8 md:space-y-10">
                 
                 {/* Store Name */}
                 <div className="space-y-4">
@@ -170,7 +170,7 @@ const AdminSettings = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="bg-navy-fixed text-white px-12 py-6 rounded-[2rem] font-black uppercase tracking-[0.3em] text-xs hover:bg-terracotta transition-premium shadow-2xl disabled:opacity-50 flex items-center gap-4 group"
+                  className="w-full md:w-auto bg-navy-fixed text-white px-12 py-6 rounded-[2rem] font-black uppercase tracking-[0.3em] text-xs hover:bg-terracotta transition-premium shadow-2xl disabled:opacity-50 flex items-center justify-center gap-4 group"
                 >
                   {submitting ? (
                     <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />

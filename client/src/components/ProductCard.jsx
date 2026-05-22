@@ -10,6 +10,8 @@ import { useWishlistStore } from '../store/useWishlistStore';
 const ProductCard = ({ product, isLoading = false, onQuickView }) => {
   const [isHovered, setIsHovered] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
+  const removeItem = useCartStore((state) => state.removeItem);
+  const isInCart = useCartStore((state) => state.isInCart);
   const { toggleWishlist, isInWishlist } = useWishlistStore();
   
   if (isLoading || !product) {
@@ -25,13 +27,19 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
   }
 
   const isWishlisted = isInWishlist(product._id);
+  const isProductInCart = isInCart(product._id);
   const viewingNow = Math.floor(Math.random() * 14) + 2;
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(product, 1);
-    toast.success(`${product.name} added to cart`);
+    if (isProductInCart) {
+      removeItem(product._id, '');
+      toast.success(`${product.name} removed from cart`);
+    } else {
+      addItem(product, 1);
+      toast.success(`${product.name} added to cart`);
+    }
   };
 
   const handleToggleWishlist = (e) => {
@@ -113,7 +121,7 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
                 onClick={handleAddToCart}
                 className="w-full py-3 bg-navy-fixed text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-terracotta transition-premium flex items-center justify-center gap-2 shadow-2xl"
               >
-                <ShoppingCart size={14} /> Add to Cart
+                <ShoppingCart size={14} fill={isProductInCart ? "currentColor" : "none"} /> {isProductInCart ? 'Remove from Cart' : 'Add to Cart'}
               </button>
             </motion.div>
           )}
@@ -151,10 +159,12 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
           {/* Mobile Quick Add-to-Cart */}
           <button 
             onClick={handleAddToCart}
-            className="lg:hidden w-7 h-7 md:w-8 md:h-8 rounded-full bg-navy-fixed text-white flex flex-shrink-0 items-center justify-center hover:bg-terracotta active:scale-95 transition-all duration-200 shadow-md"
-            title="Add to Cart"
+            className={`lg:hidden w-7 h-7 md:w-8 md:h-8 rounded-full flex flex-shrink-0 items-center justify-center active:scale-95 transition-all duration-200 shadow-md ${
+              isProductInCart ? 'bg-terracotta text-white hover:bg-red-500' : 'bg-navy-fixed text-white hover:bg-terracotta'
+            }`}
+            title={isProductInCart ? 'Remove from Cart' : 'Add to Cart'}
           >
-            <ShoppingCart size={12} className="md:w-3.5 md:h-3.5" />
+            <ShoppingCart size={12} className="md:w-3.5 md:h-3.5" fill={isProductInCart ? "currentColor" : "none"} />
           </button>
         </div>
 

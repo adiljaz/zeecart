@@ -161,8 +161,8 @@ const Home = () => {
       </section>
 
       {/* 4. Trending Now Section */}
-      <section className="py-24 px-6 md:px-12 max-w-[1600px] mx-auto">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+      <section className="py-16 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-16 gap-6">
           <div>
             <h2 className="text-4xl md:text-7xl font-serif font-black text-navy tracking-tighter leading-none">Trending.</h2>
             <p className="text-terracotta text-[10px] md:text-xs font-black uppercase tracking-[0.4em] mt-4">The Style Pulse</p>
@@ -237,8 +237,8 @@ const Home = () => {
       </section>
 
       {/* 6. Most Sold Section */}
-      <section className="py-24 px-6 md:px-12 max-w-[1600px] mx-auto bg-card-bg shadow-premium rounded-[3rem] border border-border">
-        <div className="flex items-center justify-between mb-16 px-4">
+      <section className="py-16 md:py-24 px-4 md:px-12 max-w-[1600px] mx-auto bg-card-bg shadow-premium md:rounded-[3rem] border-y md:border border-border">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-16 md:px-4 gap-6">
           <div>
             <h2 className="text-3xl md:text-4xl font-serif font-black text-navy mb-2 tracking-tight">The Best-Sellers.</h2>
             <p className="text-navy/40 text-[10px] md:text-xs font-bold uppercase tracking-widest">Most loved by our community</p>

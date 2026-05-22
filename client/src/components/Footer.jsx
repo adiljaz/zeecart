@@ -23,7 +23,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="space-y-8">
             <Link to="/" className="text-3xl font-serif font-black tracking-tight uppercase italic">
-              {settings?.storeName || 'Zee Cart'}<span className="text-terracotta not-italic">.</span>
+              {settings?.storeName || 'Zee Cart'}
             </Link>
             <p className="text-white/40 text-sm leading-relaxed font-medium">
               Redefining modern luxury through curated essentials and timeless designs. Join our journey towards a more refined lifestyle.

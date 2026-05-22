@@ -109,18 +109,18 @@ const AdminCategories = () => {
       </Helmet>
       <div className="flex bg-warm-white min-h-screen">
         <AdminSidebar />
-        <div className="flex-1 p-8 overflow-y-auto">
-          <div className="flex justify-between items-end mb-12">
+        <div className="flex-1 p-4 md:p-8 overflow-x-hidden">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-12 pt-20 md:pt-0">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <Layers className="text-terracotta" size={24} />
-                <h1 className="text-4xl font-serif font-black text-navy">Category Hub</h1>
+                <h1 className="text-3xl md:text-4xl font-serif font-black text-navy">Category Hub</h1>
               </div>
               <p className="text-navy/40 text-[10px] font-black uppercase tracking-[0.4em]">Structure Your Global Inventory</p>
             </div>
             <button 
               onClick={openCreateModal}
-              className="bg-navy-fixed text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-terracotta transition-premium shadow-2xl shadow-navy/20 flex items-center gap-3"
+              className="w-full sm:w-auto justify-center bg-navy-fixed text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-terracotta transition-premium shadow-2xl shadow-navy/20 flex items-center gap-3"
             >
               <Plus size={18} /> Initialize Category
             </button>
@@ -206,13 +206,13 @@ const AdminCategories = () => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="bg-card-bg rounded-[3rem] w-full max-w-xl p-12 shadow-2xl border border-white/20 relative overflow-hidden"
+            className="bg-card-bg rounded-[2rem] md:rounded-[3rem] w-full max-w-xl p-6 md:p-12 shadow-2xl border border-white/20 relative overflow-hidden max-h-[90vh] overflow-y-auto"
           >
             <div className="absolute top-0 left-0 w-full h-3 bg-terracotta" />
             
-            <div className="flex justify-between items-center mb-10">
+            <div className="flex justify-between items-center mb-8 md:mb-10">
               <div>
-                <h2 className="text-3xl font-serif font-black text-navy">{isEdit ? 'Refine Category' : 'New Category'}</h2>
+                <h2 className="text-2xl md:text-3xl font-serif font-black text-navy">{isEdit ? 'Refine Category' : 'New Category'}</h2>
                 <p className="text-[10px] uppercase tracking-[0.4em] text-navy/30 font-black mt-2">Architecture Configuration</p>
               </div>
               <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 rounded-full bg-warm-white flex items-center justify-center text-navy/20 hover:text-red-500 hover:bg-red-50 transition-premium">
