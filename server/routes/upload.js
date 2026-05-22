@@ -10,10 +10,14 @@ router.post('/', verifyAdmin, upload.array('images', 5), (req, res) => {
       return res.status(400).json({ message: 'No files uploaded' });
     }
 
-    const files = req.files.map((file) => ({
-      filename: file.filename,
-      url: `/uploads/${file.filename}`,
-    }));
+    const files = req.files.map((file) => {
+      const b64 = Buffer.from(file.buffer).toString('base64');
+      const dataURI = `data:${file.mimetype};base64,${b64}`;
+      return {
+        filename: file.originalname,
+        url: dataURI,
+      };
+    });
 
     res.json({ message: 'Files uploaded successfully', files });
   } catch (error) {

@@ -53,7 +53,15 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
 
             {/* Image Section */}
             <div className="w-full md:w-1/2 aspect-[4/5] bg-warm-white">
-              <img src={getImageUrl(product.images?.[0]?.url)} alt={product.name} className="w-full h-full object-cover" />
+              <img 
+                src={getImageUrl(product.images?.[0]?.url)} 
+                alt={product.name} 
+                className="w-full h-full object-cover" 
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                }}
+              />
             </div>
 
             {/* Content Section */}

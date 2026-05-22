@@ -73,7 +73,7 @@ const Home = () => {
 
   const getImageUrl = (url) => {
     if (!url) return '';
-    if (url.startsWith('http')) return url;
+    if (url.startsWith('http') || url.startsWith('data:image')) return url;
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
     const path = url.startsWith('/') ? url : `/${url}`;
@@ -102,7 +102,15 @@ const Home = () => {
           {heroSlides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div className="relative h-full w-full">
-                <img src={getImageUrl(slide.image)} alt="" className="absolute inset-0 w-full h-full object-cover object-center" />
+                <img 
+                  src={getImageUrl(slide.image)} 
+                  alt="" 
+                  className="absolute inset-0 w-full h-full object-cover object-center" 
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                  }}
+                />
                 
                 {/* Dynamic Overlays */}
                 <div className="absolute inset-0 bg-black/10" />
@@ -188,6 +196,10 @@ const Home = () => {
               src={getImageUrl(getBannerByArea('women', { image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000" }).image)} 
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
               alt="Women's Collection" 
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+              }}
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
             <div className="relative h-full p-6 md:p-12 flex flex-col justify-end">
@@ -205,6 +217,10 @@ const Home = () => {
                  src={getImageUrl(getBannerByArea('men', { image: "https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?auto=format&fit=crop&q=80&w=1000" }).image)} 
                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                  alt="Men's Collection" 
+                 onError={(e) => {
+                   e.target.onerror = null;
+                   e.target.src = 'https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?auto=format&fit=crop&q=80&w=1000';
+                 }}
                />
                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                <div className="relative h-full p-6 md:p-10 flex flex-col justify-center">
@@ -221,6 +237,10 @@ const Home = () => {
                  src={getImageUrl(getBannerByArea('kids', { image: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?auto=format&fit=crop&q=80&w=1000" }).image)} 
                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                  alt="Kids Fashion" 
+                 onError={(e) => {
+                   e.target.onerror = null;
+                   e.target.src = 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?auto=format&fit=crop&q=80&w=1000';
+                 }}
                />
                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                <div className="relative h-full p-6 md:p-10 flex flex-col justify-center items-center text-center">

@@ -126,20 +126,21 @@ const AdminCategories = () => {
             </button>
           </div>
 
-          <div className="bg-card-bg rounded-[2.5rem] overflow-hidden shadow-premium border border-border">
-            {loading ? (
-              <div className="p-40 text-center">
-                <div className="w-12 h-12 border-4 border-navy/5 border-t-terracotta rounded-full animate-spin mx-auto mb-6" />
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">Syncing Taxonomy...</p>
-              </div>
-            ) : categories.length === 0 ? (
-              <div className="p-40 text-center">
-                <Info size={48} className="mx-auto text-navy/5 mb-6" />
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">No taxonomies defined</p>
-              </div>
-            ) : (
-              <div className="block w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-                <table className="w-full text-left min-w-[800px]">
+          {/* Categories Table - Mobile First Scroll Architecture */}
+          <div className="w-[calc(100vw-2rem)] md:w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <div className="bg-card-bg rounded-[2.5rem] overflow-hidden shadow-premium border border-border min-w-[800px]">
+              {loading ? (
+                <div className="p-40 text-center">
+                  <div className="w-12 h-12 border-4 border-navy/5 border-t-terracotta rounded-full animate-spin mx-auto mb-6" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">Syncing Taxonomy...</p>
+                </div>
+              ) : categories.length === 0 ? (
+                <div className="p-40 text-center">
+                  <Info size={48} className="mx-auto text-navy/5 mb-6" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">No taxonomies defined</p>
+                </div>
+              ) : (
+                <table className="w-full text-left">
                   <thead>
                     <tr className="bg-navy-fixed text-white">
                       <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em]">Identity</th>
@@ -194,8 +195,8 @@ const AdminCategories = () => {
                     ))}
                   </tbody>
                 </table>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

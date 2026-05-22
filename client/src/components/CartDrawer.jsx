@@ -99,7 +99,15 @@ const CartDrawer = () => {
                   {items.map((item, idx) => (
                     <div key={`${item._id}-${item.selectedSize}`} className="flex gap-4">
                       <div className="w-24 aspect-[4/5] bg-warm-white overflow-hidden flex-shrink-0 border border-border">
-                        <img src={getImageUrl(item.images?.[0]?.url)} alt={item.name} className="w-full h-full object-cover" />
+                        <img 
+                          src={getImageUrl(item.images?.[0]?.url)} 
+                          alt={item.name} 
+                          className="w-full h-full object-cover" 
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                          }}
+                        />
                       </div>
                       <div className="flex-1 flex flex-col justify-between">
                         <div>

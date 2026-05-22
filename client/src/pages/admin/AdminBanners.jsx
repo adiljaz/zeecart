@@ -50,7 +50,7 @@ const AdminBanners = () => {
 
   const getImageUrl = (url) => {
     if (!url) return '';
-    if (url.startsWith('http')) return url;
+    if (url.startsWith('http') || url.startsWith('data:image')) return url;
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
     const path = url.startsWith('/') ? url : `/${url}`;
@@ -200,7 +200,15 @@ const AdminBanners = () => {
                   className="bg-card-bg rounded-3xl overflow-hidden shadow-premium border border-border group"
                 >
                   <div className="aspect-[21/9] relative overflow-hidden bg-gray-100">
-                    <img src={getImageUrl(banner.image)} alt={banner.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img 
+                      src={getImageUrl(banner.image)} 
+                      alt={banner.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                      }}
+                    />
                     <div className="absolute top-4 right-4 flex gap-2">
                       <button onClick={() => handleOpenModal(banner)} className="p-2 bg-card-bg/90 backdrop-blur shadow-lg rounded-full text-navy hover:text-terracotta border border-border transition-colors">
                         <Edit2 size={14} />
@@ -299,7 +307,15 @@ const AdminBanners = () => {
                       >
                         {formData.image ? (
                           <>
-                            <img src={getImageUrl(formData.image)} className="w-full h-full object-cover" alt="Preview" />
+                            <img 
+                              src={getImageUrl(formData.image)} 
+                              className="w-full h-full object-cover" 
+                              alt="Preview" 
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                              }}
+                            />
                             <div className="absolute inset-0 bg-navy-fixed/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                               <Upload className="text-white" size={32} />
                             </div>

@@ -68,21 +68,21 @@ const AdminProducts = () => {
           </div>
 
 
-          {/* Products Table */}
-          <div className="bg-card-bg rounded-3xl overflow-hidden shadow-premium border border-border">
-            {loading ? (
-              <div className="p-20 text-center">
-                <div className="w-10 h-10 border-4 border-navy/10 border-t-terracotta rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-[10px] font-black uppercase tracking-widest text-navy/40">Fetching Inventory...</p>
-              </div>
-            ) : products.length === 0 ? (
-              <div className="p-20 text-center">
-                <Package size={48} strokeWidth={1} className="mx-auto text-navy/20 mb-4" />
-                <p className="text-[10px] font-black uppercase tracking-widest text-navy/40">No products discovered</p>
-              </div>
-            ) : (
-              <div className="block w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-                <table className="w-full min-w-[1000px]">
+          {/* Products Table - Mobile First Scroll Architecture */}
+          <div className="w-[calc(100vw-2rem)] md:w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <div className="bg-card-bg rounded-3xl overflow-hidden shadow-premium border border-border min-w-[1000px]">
+              {loading ? (
+                <div className="p-20 text-center">
+                  <div className="w-10 h-10 border-4 border-navy/10 border-t-terracotta rounded-full animate-spin mx-auto mb-4" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-navy/40">Fetching Inventory...</p>
+                </div>
+              ) : products.length === 0 ? (
+                <div className="p-20 text-center">
+                  <Package size={48} strokeWidth={1} className="mx-auto text-navy/20 mb-4" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-navy/40">No products discovered</p>
+                </div>
+              ) : (
+                <table className="w-full text-left">
                   <thead>
                     <tr className="bg-navy-fixed text-white">
                       <th className="px-6 py-5 text-left text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Asset</th>
@@ -104,6 +104,10 @@ const AdminProducts = () => {
                                 src={getImageUrl(product.images[0].url)} 
                                 alt={product.name}
                                 className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                                }}
                               />
                             ) : (
                               <div className="w-full h-full flex flex-col items-center justify-center bg-navy/5 gap-2">
@@ -181,8 +185,8 @@ const AdminProducts = () => {
                     ))}
                   </tbody>
                 </table>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Pagination */}

@@ -182,7 +182,15 @@ const ProductDetail = () => {
                     onClick={() => setSelectedImage(idx)}
                     className={`w-16 md:w-24 aspect-[4/5] flex-shrink-0 bg-card-bg border transition-premium p-1 ${selectedImage === idx ? 'border-navy shadow-lg' : 'border-border hover:border-navy/30'}`}
                   >
-                    <img src={getImageUrl(img)} alt="" className="w-full h-full object-cover" />
+                    <img 
+                      src={getImageUrl(img)} 
+                      alt="" 
+                      className="w-full h-full object-cover" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                      }}
+                    />
                   </button>
                 ))}
               </div>
@@ -194,6 +202,10 @@ const ProductDetail = () => {
                   animate={{ opacity: 1 }}
                   src={getImageUrl(images[selectedImage])} 
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 cursor-zoom-in" 
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                  }}
                 />
                 
                 {/* Wishlist Icon on Image */}
@@ -422,7 +434,15 @@ const ProductDetail = () => {
           >
             <div className="max-w-[1600px] mx-auto flex items-center justify-between gap-4">
               <div className="hidden sm:flex items-center gap-4">
-                <img src={getImageUrl(product.images?.[0]?.url)} className="w-12 h-12 object-cover" alt="" />
+                <img 
+                  src={getImageUrl(product.images?.[0]?.url)} 
+                  className="w-12 h-12 object-cover" 
+                  alt="" 
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                  }}
+                />
                 <div>
                   <h4 className="text-xs font-black text-navy truncate max-w-[200px]">{product.name}</h4>
                   <p className="text-xs font-black text-terracotta">₹{product.price.toLocaleString()}</p>

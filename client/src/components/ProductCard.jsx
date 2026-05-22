@@ -99,6 +99,10 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
             src={getImageUrl(mainImage)} 
             alt={product.name}
             className="img-premium"
+            onError={(e) => {
+              e.target.onerror = null; // Prevent infinite loop
+              e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+            }}
           />
         </Link>
 
