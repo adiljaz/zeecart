@@ -69,8 +69,9 @@ const AdminProducts = () => {
 
 
           {/* Products Table - Mobile First Scroll Architecture */}
-          <div className="w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
-            <div className="bg-card-bg rounded-3xl overflow-hidden shadow-premium border border-border min-w-[1000px]">
+          <div className="bg-card-bg rounded-3xl shadow-premium border border-border w-full overflow-hidden">
+            <div className="w-full overflow-x-auto no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div className="min-w-[1000px]">
               {loading ? (
                 <div className="p-20 text-center">
                   <div className="w-10 h-10 border-4 border-navy/10 border-t-terracotta rounded-full animate-spin mx-auto mb-4" />
@@ -186,6 +187,7 @@ const AdminProducts = () => {
                   </tbody>
                 </table>
               )}
+              </div>
             </div>
           </div>
 

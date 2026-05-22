@@ -127,8 +127,9 @@ const AdminCategories = () => {
           </div>
 
           {/* Categories Table - Mobile First Scroll Architecture */}
-          <div className="w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
-            <div className="bg-card-bg rounded-[2.5rem] overflow-hidden shadow-premium border border-border min-w-[800px]">
+          <div className="bg-card-bg rounded-[2.5rem] shadow-premium border border-border w-full overflow-hidden">
+            <div className="w-full overflow-x-auto no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div className="min-w-[800px]">
               {loading ? (
                 <div className="p-40 text-center">
                   <div className="w-12 h-12 border-4 border-navy/5 border-t-terracotta rounded-full animate-spin mx-auto mb-6" />
@@ -196,6 +197,7 @@ const AdminCategories = () => {
                   </tbody>
                 </table>
               )}
+              </div>
             </div>
           </div>
         </div>
