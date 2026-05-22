@@ -127,7 +127,7 @@ const AdminCategories = () => {
           </div>
 
           {/* Categories Table - Mobile First Scroll Architecture */}
-          <div className="w-[calc(100vw-2rem)] md:w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div className="w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
             <div className="bg-card-bg rounded-[2.5rem] overflow-hidden shadow-premium border border-border min-w-[800px]">
               {loading ? (
                 <div className="p-40 text-center">

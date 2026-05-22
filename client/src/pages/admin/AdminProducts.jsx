@@ -69,7 +69,7 @@ const AdminProducts = () => {
 
 
           {/* Products Table - Mobile First Scroll Architecture */}
-          <div className="w-[calc(100vw-2rem)] md:w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div className="w-full overflow-x-auto pb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
             <div className="bg-card-bg rounded-3xl overflow-hidden shadow-premium border border-border min-w-[1000px]">
               {loading ? (
                 <div className="p-20 text-center">
