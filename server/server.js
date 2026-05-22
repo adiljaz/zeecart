@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
+import compression from 'compression';
 import { fileURLToPath } from 'url';
 
 // Routes
@@ -22,6 +23,7 @@ import getClientIp from './middleware/getClientIp.js';
 dotenv.config();
 
 const app = express();
+app.use(compression());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

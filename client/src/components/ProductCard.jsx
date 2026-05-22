@@ -59,11 +59,17 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
 
   const mainImage = product.images?.[0]?.url || '';
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    // Prefetch product detail to warm up server/cache
+    api.get(`/api/products/${product._id}`).catch(() => {});
+  };
+
   return (
     <motion.div 
       layout
       className="group relative flex flex-col bg-card-bg rounded-2xl overflow-hidden p-2 border border-transparent hover:border-border transition-all duration-300"
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
@@ -99,6 +105,7 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
             src={getImageUrl(mainImage)} 
             alt={product.name}
             className="img-premium"
+            loading="lazy"
             onError={(e) => {
               e.target.onerror = null; // Prevent infinite loop
               e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
@@ -163,12 +170,12 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
           {/* Mobile Quick Add-to-Cart */}
           <button 
             onClick={handleAddToCart}
-            className={`lg:hidden w-7 h-7 md:w-8 md:h-8 rounded-full flex flex-shrink-0 items-center justify-center active:scale-95 transition-all duration-200 shadow-md ${
+            className={`lg:hidden w-11 h-11 md:w-12 md:h-12 rounded-full flex flex-shrink-0 items-center justify-center active:scale-95 transition-all duration-200 shadow-md ${
               isProductInCart ? 'bg-terracotta text-white hover:bg-red-500' : 'bg-navy-fixed text-white hover:bg-terracotta'
             }`}
             title={isProductInCart ? 'Remove from Cart' : 'Add to Cart'}
           >
-            <ShoppingCart size={12} className="md:w-3.5 md:h-3.5" fill={isProductInCart ? "currentColor" : "none"} />
+            <ShoppingCart size={18} className="md:w-5 md:h-5" fill={isProductInCart ? "currentColor" : "none"} />
           </button>
         </div>
 

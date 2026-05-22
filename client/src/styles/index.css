@@ -45,9 +45,14 @@
     max-width: 100%;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
-    color: var(--text-primary);
+  h1 { @apply font-serif text-[clamp(2.5rem,8vw,6rem)] leading-[1.1] tracking-tighter; color: var(--text-primary); }
+  h2 { @apply font-serif text-[clamp(2rem,6vw,4rem)] leading-[1.15] tracking-tight; color: var(--text-primary); }
+  h3 { @apply font-serif text-[clamp(1.5rem,5vw,3rem)] leading-[1.2]; color: var(--text-primary); }
+  h4 { @apply font-serif text-[clamp(1.25rem,4vw,2rem)] leading-[1.3]; color: var(--text-primary); }
+  h5, h6 { @apply font-serif text-[clamp(1rem,3vw,1.5rem)] leading-[1.4]; color: var(--text-primary); }
+  
+  p, span, div {
+    line-height: 1.5;
   }
 }
 
@@ -125,10 +130,19 @@
 }
 
 .shimmer {
-  @apply relative overflow-hidden;
+  @apply relative overflow-hidden bg-gray-200 dark:bg-gray-800;
 }
 
 .shimmer::after {
   @apply content-[''] absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+  animation: shimmer 2s infinite;
+}
+
+.skeleton {
+  @apply relative overflow-hidden bg-gray-200 dark:bg-gray-800 rounded-md;
+}
+
+.skeleton::after {
+  @apply content-[''] absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent;
   animation: shimmer 2s infinite;
 }

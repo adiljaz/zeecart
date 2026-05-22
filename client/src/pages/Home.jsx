@@ -106,6 +106,7 @@ const Home = () => {
                   src={getImageUrl(slide.image)} 
                   alt="" 
                   className="absolute inset-0 w-full h-full object-cover object-center" 
+                  fetchpriority={index === 0 ? "high" : "auto"}
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';

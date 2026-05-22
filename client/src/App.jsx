@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import BottomNav from './components/BottomNav';
 import CartDrawer from './components/CartDrawer';
 import PrivateRoute from './components/PrivateRoute';
 import { useCartStore } from './store/useCartStore';
@@ -76,7 +77,7 @@ const AppContent = () => {
     <div className="flex flex-col min-h-screen w-full max-w-full overflow-x-hidden">
       <ScrollToTop />
       {!isAdmin && <Header />}
-      <main className="flex-1">
+      <main className="flex-1 pb-16 md:pb-0">
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -102,6 +103,7 @@ const AppContent = () => {
         </Suspense>
       </main>
       {!isAdmin && <Footer />}
+      {!isAdmin && <BottomNav />}
     </div>
   );
 };

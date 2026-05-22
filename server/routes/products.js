@@ -53,6 +53,7 @@ router.get('/', async (req, res) => {
 
     const total = await Product.countDocuments(query);
 
+    res.set('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
     res.json({
       products,
       total,
@@ -71,6 +72,7 @@ router.get('/featured', async (req, res) => {
     if (products.length === 0) {
       products = await Product.find().sort({ createdAt: -1 }).limit(6);
     }
+    res.set('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -82,6 +84,7 @@ router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
+    res.set('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });

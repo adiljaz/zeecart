@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useSettings } from '../context/SettingsContext';
@@ -34,12 +34,26 @@ const ProductDetail = () => {
   const isWishlisted = product ? isInWishlist(product._id) : false;
   const isProductInCart = product ? isInCart(product._id) : false;
 
+  const addToCartRef = useRef(null);
+
   useEffect(() => {
     fetchProduct();
-    const handleScroll = () => setShowStickyBar(window.scrollY > 600);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [id]);
+    
+    if (!addToCartRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+          setShowStickyBar(true);
+        } else {
+          setShowStickyBar(false);
+        }
+      },
+      { threshold: 0 }
+    );
+    
+    observer.observe(addToCartRef.current);
+    return () => observer.disconnect();
+  }, [id, isLoading]);
 
   const fetchProduct = async () => {
     setIsLoading(true);
@@ -174,13 +188,13 @@ const ProductDetail = () => {
           {/* Section: Image Gallery */}
           <div className="w-full lg:w-3/5">
             <div className="flex flex-col-reverse md:flex-row gap-4">
-              {/* Thumbnails */}
-              <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-auto no-scrollbar max-h-[400px] md:max-h-[600px]">
+              {/* Thumbnails (Desktop Only) */}
+              <div className="hidden md:flex flex-col gap-4 overflow-y-auto no-scrollbar max-h-[600px]">
                 {images.map((img, idx) => (
                   <button 
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`w-16 md:w-24 aspect-[4/5] flex-shrink-0 bg-card-bg border transition-premium p-1 ${selectedImage === idx ? 'border-navy shadow-lg' : 'border-border hover:border-navy/30'}`}
+                    className={`w-24 aspect-[4/5] flex-shrink-0 bg-card-bg border transition-premium p-1 ${selectedImage === idx ? 'border-navy shadow-lg' : 'border-border hover:border-navy/30'}`}
                   >
                     <img 
                       src={getImageUrl(img)} 
@@ -195,13 +209,49 @@ const ProductDetail = () => {
                 ))}
               </div>
               {/* Main Image */}
-              <div className="flex-1 aspect-[4/5] md:aspect-auto md:h-[600px] bg-card-bg border border-border overflow-hidden relative group">
+              <div className="flex-1 aspect-square md:aspect-auto md:h-[600px] bg-card-bg border border-border overflow-hidden relative group">
+                
+                {/* Mobile Swipeable Gallery */}
+                <div 
+                  className="flex md:hidden w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar"
+                  onScroll={(e) => {
+                    const index = Math.round(e.target.scrollLeft / e.target.offsetWidth);
+                    setSelectedImage(index);
+                  }}
+                >
+                  {images.map((img, idx) => (
+                    <img 
+                      key={idx}
+                      src={getImageUrl(img)} 
+                      className="w-full h-full flex-shrink-0 object-cover snap-center" 
+                      alt=""
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Mobile Pagination Dots */}
+                {images.length > 1 && (
+                  <div className="md:hidden absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
+                    {images.map((_, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`w-1.5 h-1.5 rounded-full transition-all ${selectedImage === idx ? 'bg-navy w-4' : 'bg-navy/30'}`}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Desktop Main Image */}
                 <motion.img 
                   key={selectedImage}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   src={getImageUrl(images[selectedImage])} 
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 cursor-zoom-in" 
+                  className="hidden md:block w-full h-full object-cover transition-transform duration-700 hover:scale-110 cursor-zoom-in" 
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000';
@@ -301,7 +351,7 @@ const ProductDetail = () => {
               )}
 
               {/* Actions */}
-              <div className="flex flex-col gap-4 mb-8">
+              <div ref={addToCartRef} className="flex flex-col gap-4 mb-8">
                 <button 
                   onClick={handleAddToCart}
                   className={`w-full btn-premium h-16 shadow-2xl flex items-center justify-center gap-3 ${
