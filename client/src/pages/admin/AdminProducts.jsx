@@ -81,7 +81,7 @@ const AdminProducts = () => {
                 <p className="text-[10px] font-black uppercase tracking-widest text-navy/40">No products discovered</p>
               </div>
             ) : (
-              <div className="overflow-x-auto overflow-y-hidden w-full touch-pan-x custom-scrollbar">
+              <div className="block w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <table className="w-full min-w-[1000px]">
                   <thead>
                     <tr className="bg-navy-fixed text-white">

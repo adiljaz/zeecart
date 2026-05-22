@@ -138,8 +138,8 @@ const AdminCategories = () => {
                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-navy/20">No taxonomies defined</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
+              <div className="block w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className="w-full text-left min-w-[800px]">
                   <thead>
                     <tr className="bg-navy-fixed text-white">
                       <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.3em]">Identity</th>
