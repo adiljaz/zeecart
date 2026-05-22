@@ -28,6 +28,10 @@
     color: var(--text-primary);
     @apply font-sans antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+  html {
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {

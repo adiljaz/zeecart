@@ -117,7 +117,7 @@ const Home = () => {
                     <p className="text-terracotta text-sm font-black uppercase tracking-[0.5em] mb-6 drop-shadow-lg">
                       {slide.subtitle}
                     </p>
-                    <h2 className="text-white text-6xl md:text-9xl font-serif font-black tracking-tighter mb-10 max-w-4xl leading-[0.85] drop-shadow-2xl">
+                    <h2 className="text-white text-5xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter mb-10 max-w-4xl leading-[0.85] drop-shadow-2xl">
                       {slide.title.split(' ').map((word, i) => (
                         <span key={i} className={i === 2 ? 'text-terracotta' : ''}>{word} </span>
                       ))}
@@ -164,14 +164,14 @@ const Home = () => {
       <section className="py-24 px-6 md:px-12 max-w-[1600px] mx-auto">
         <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
           <div>
-            <h2 className="text-5xl md:text-7xl font-serif font-black text-navy tracking-tighter leading-none">Trending.</h2>
-            <p className="text-terracotta text-xs font-black uppercase tracking-[0.4em] mt-4">The Style Pulse</p>
+            <h2 className="text-4xl md:text-7xl font-serif font-black text-navy tracking-tighter leading-none">Trending.</h2>
+            <p className="text-terracotta text-[10px] md:text-xs font-black uppercase tracking-[0.4em] mt-4">The Style Pulse</p>
           </div>
           <Link to="/products?isTrending=true" className="group flex items-center gap-3 text-xs font-black uppercase tracking-widest text-navy border-b-2 border-navy/10 hover:border-terracotta transition-premium pb-1">
             Explore All Trends <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
           </Link>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-16">
           {isLoading ? (
             [1,2,3,4].map(i => <div key={i} className="animate-pulse aspect-product bg-warm-white rounded-2xl" />)
           ) : trendingProducts.map(product => (
@@ -190,7 +190,7 @@ const Home = () => {
               alt="Women's Collection" 
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-            <div className="relative h-full p-12 flex flex-col justify-end">
+            <div className="relative h-full p-6 md:p-12 flex flex-col justify-end">
               <h3 className="text-4xl md:text-6xl font-serif font-black text-white mb-6">
                 {getBannerByArea('women', { title: "Bold In Blue." }).title}
               </h3>
@@ -207,8 +207,8 @@ const Home = () => {
                  alt="Men's Collection" 
                />
                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-               <div className="relative h-full p-10 flex flex-col justify-center">
-                 <h4 className="text-2xl font-serif font-black text-white mb-4">
+               <div className="relative h-full p-6 md:p-10 flex flex-col justify-center">
+                 <h4 className="text-xl md:text-2xl font-serif font-black text-white mb-4">
                    {getBannerByArea('men', { title: "Street Edit." }).title}
                  </h4>
                  <Link to={getBannerByArea('men', { link: "/products?gender=men" }).link} className="text-white text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all">
@@ -223,8 +223,8 @@ const Home = () => {
                  alt="Kids Fashion" 
                />
                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-               <div className="relative h-full p-10 flex flex-col justify-center items-center text-center">
-                 <h4 className="text-2xl font-serif font-black text-white mb-4">
+               <div className="relative h-full p-6 md:p-10 flex flex-col justify-center items-center text-center">
+                 <h4 className="text-xl md:text-2xl font-serif font-black text-white mb-4">
                    {getBannerByArea('kids', { title: "Little Trendsetters." }).title}
                  </h4>
                   <Link to={getBannerByArea('kids', { link: "/products?gender=kids" }).link} className="text-white text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all border border-white/20 px-6 py-3 hover:bg-white hover:text-navy-fixed">
@@ -240,14 +240,14 @@ const Home = () => {
       <section className="py-24 px-6 md:px-12 max-w-[1600px] mx-auto bg-card-bg shadow-premium rounded-[3rem] border border-border">
         <div className="flex items-center justify-between mb-16 px-4">
           <div>
-            <h2 className="text-4xl font-serif font-black text-navy mb-2 tracking-tight">The Best-Sellers.</h2>
-            <p className="text-navy/40 text-xs font-bold uppercase tracking-widest">Most loved by our community</p>
+            <h2 className="text-3xl md:text-4xl font-serif font-black text-navy mb-2 tracking-tight">The Best-Sellers.</h2>
+            <p className="text-navy/40 text-[10px] md:text-xs font-bold uppercase tracking-widest">Most loved by our community</p>
           </div>
           <Link to="/products?isBestSeller=true" className="text-xs font-black uppercase tracking-widest text-navy border-b-2 border-navy/10 hover:border-terracotta transition-premium pb-1">
             View All
           </Link>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-16">
           {isLoading ? (
             [1,2,3,4].map(i => <div key={i} className="animate-pulse aspect-product bg-warm-white rounded-2xl" />)
           ) : bestSellers.map(product => (
@@ -258,7 +258,7 @@ const Home = () => {
 
       {/* Trust Section */}
       <section className="py-24 border-t border-border bg-warm-white">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
           <div className="flex items-center gap-6">
             <div className="w-16 h-16 bg-navy-fixed flex items-center justify-center rounded-sm shadow-xl text-white">
               <Truck size={32} strokeWidth={1} />

@@ -43,7 +43,7 @@ const Header = () => {
           : 'header-glass'
       } border-b border-border`}
     >
-      <div className={`max-w-[1600px] mx-auto h-full px-6 md:px-12 flex items-center justify-between gap-12 transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
+      <div className={`max-w-[1600px] mx-auto h-full px-4 md:px-12 flex items-center justify-between gap-2 md:gap-12 transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
         
         {/* Left: Menu Trigger (mobile) & Brand Logo (desktop) */}
         <div className="flex items-center gap-8">
@@ -78,7 +78,7 @@ const Header = () => {
           <Link to="/" className="xl:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 group">
             <motion.span 
               whileHover={{ scale: 1.02 }}
-              className="text-2xl md:text-3xl font-serif font-black tracking-tighter text-navy uppercase italic"
+              className="text-xl md:text-3xl font-serif font-black tracking-tighter text-navy uppercase italic"
             >
               {settings?.storeName || 'Zee Cart'}
               <motion.span 
@@ -166,7 +166,7 @@ const Header = () => {
             </motion.div>
 
             {/* Theme Toggle */}
-            <motion.div whileHover={{ scale: 1.12, rotate: 45 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.12, rotate: 45 }} whileTap={{ scale: 0.95 }} className="hidden md:block">
               <button 
                 onClick={toggleTheme}
                 className="p-2 hover:text-terracotta transition-colors flex items-center justify-center"
@@ -237,7 +237,17 @@ const Header = () => {
                 ))}
               </nav>
 
-              <div className="mt-auto pt-10 border-t border-navy/5 dark:border-white/5">
+              <div className="mt-auto pt-10 border-t border-navy/5 dark:border-white/5 space-y-4">
+                <button 
+                  onClick={() => {
+                    toggleTheme();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-navy/40 dark:text-white/40 hover:text-navy dark:hover:text-white transition-colors"
+                >
+                  {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />} 
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </button>
                 <Link 
                   to="/admin" 
                   onClick={() => setIsMobileMenuOpen(false)}

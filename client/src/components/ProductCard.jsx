@@ -123,38 +123,38 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
       {/* Product Info */}
       <div className="pt-4 pb-2 flex flex-col gap-1">
         <div className="flex justify-between items-start gap-2">
-          <p className="text-[10px] uppercase tracking-widest font-black text-navy/40">{product.category}</p>
+          <p className="text-[8px] md:text-[10px] uppercase tracking-widest font-black text-navy/40">{product.category}</p>
           <div className="flex items-center gap-1">
             <Star size={10} className="fill-terracotta text-terracotta" />
-            <span className="text-[10px] font-bold text-navy">{product.rating || '4.8'}</span>
+            <span className="text-[8px] md:text-[10px] font-bold text-navy">{product.rating || '4.8'}</span>
           </div>
         </div>
         
         <Link to={`/products/${product._id}`}>
-          <h3 className="text-sm font-black text-navy hover:text-terracotta transition-colors text-clamp-2 leading-snug">
+          <h3 className="text-xs md:text-sm font-black text-navy hover:text-terracotta transition-colors text-clamp-2 leading-snug">
             {product.name}
           </h3>
         </Link>
         
-        <div className="mt-2 flex items-center justify-between gap-3">
-          <div className="flex items-baseline gap-2">
+        <div className="mt-2 flex items-center justify-between gap-2">
+          <div className="flex items-baseline gap-1 md:gap-2">
             {product.discountedPrice && product.discountedPrice < product.price ? (
               <>
-                <span className="text-sm font-black text-navy">₹{product.discountedPrice.toLocaleString()}</span>
-                <span className="text-xs text-navy/30 line-through">₹{product.price.toLocaleString()}</span>
+                <span className="text-xs md:text-sm font-black text-navy">₹{product.discountedPrice.toLocaleString()}</span>
+                <span className="text-[10px] md:text-xs text-navy/30 line-through">₹{product.price.toLocaleString()}</span>
               </>
             ) : (
-              <span className="text-sm font-black text-navy">₹{product.price.toLocaleString()}</span>
+              <span className="text-xs md:text-sm font-black text-navy">₹{product.price.toLocaleString()}</span>
             )}
           </div>
           
           {/* Mobile Quick Add-to-Cart */}
           <button 
             onClick={handleAddToCart}
-            className="lg:hidden w-8 h-8 rounded-full bg-navy-fixed text-white flex items-center justify-center hover:bg-terracotta active:scale-95 transition-all duration-200 shadow-md"
+            className="lg:hidden w-7 h-7 md:w-8 md:h-8 rounded-full bg-navy-fixed text-white flex flex-shrink-0 items-center justify-center hover:bg-terracotta active:scale-95 transition-all duration-200 shadow-md"
             title="Add to Cart"
           >
-            <ShoppingCart size={14} />
+            <ShoppingCart size={12} className="md:w-3.5 md:h-3.5" />
           </button>
         </div>
 
