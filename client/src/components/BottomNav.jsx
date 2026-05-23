@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, LayoutGrid, ShoppingBag, User } from 'lucide-react';
+import { Home, LayoutGrid, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
 
 const BottomNav = () => {
@@ -10,8 +10,7 @@ const BottomNav = () => {
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
     { path: '/products', icon: LayoutGrid, label: 'Shop' },
-    { path: '/cart', icon: ShoppingBag, label: 'Cart', badge: cartCount },
-    { path: '/admin', icon: User, label: 'Account' }
+    { path: '/cart', icon: ShoppingBag, label: 'Cart', badge: cartCount }
   ];
 
   const handleCartClick = (e, path) => {
