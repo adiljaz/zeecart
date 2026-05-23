@@ -74,7 +74,7 @@ const Home = () => {
   const getImageUrl = (url) => {
     if (!url) return '';
     if (url.startsWith('http') || url.startsWith('data:image')) return url;
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://zeecart-backend.onrender.com' : 'http://localhost:5000');
     const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
     const path = url.startsWith('/') ? url : `/${url}`;
     return `${baseUrl}${path}`;
