@@ -7,15 +7,23 @@ import toast from 'react-hot-toast';
 
 const QuickViewModal = ({ product, isOpen, onClose }) => {
   const addItem = useCartStore(state => state.addItem);
+  const removeItem = useCartStore(state => state.removeItem);
+  const isInCart = useCartStore(state => state.isInCart);
   const { toggleWishlist, isInWishlist } = useWishlistStore();
   const isWishlisted = product ? isInWishlist(product._id) : false;
 
   if (!product) return null;
 
+  const isProductInCart = product ? isInCart(product._id) : false;
+
   const handleAddToCart = () => {
-    addItem(product, 1);
-    toast.success(`${product.name} added to cart`);
-    onClose();
+    if (isProductInCart) {
+      removeItem(product._id);
+      toast.success(`${product.name} removed from cart`);
+    } else {
+      addItem(product, 1);
+      toast.success(`${product.name} added to cart`);
+    }
   };
 
   const handleToggleWishlist = () => {
@@ -116,9 +124,9 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
               <div className="flex gap-4 mb-8">
                 <button 
                   onClick={handleAddToCart}
-                  className="flex-1 btn-premium"
+                  className={`flex-1 btn-premium ${isProductInCart ? '!bg-terracotta' : ''}`}
                 >
-                  <ShoppingCart size={18} /> Add to Cart
+                  <ShoppingCart size={18} fill={isProductInCart ? "currentColor" : "none"} /> {isProductInCart ? 'Remove from Cart' : 'Add to Cart'}
                 </button>
                 <button 
                   onClick={handleToggleWishlist}

@@ -34,7 +34,7 @@ const ProductCard = ({ product, isLoading = false, onQuickView }) => {
     e.preventDefault();
     e.stopPropagation();
     if (isProductInCart) {
-      removeItem(product._id, '');
+      removeItem(product._id);
       toast.success(`${product.name} removed from cart`);
     } else {
       addItem(product, 1);

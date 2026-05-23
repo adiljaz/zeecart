@@ -32,7 +32,7 @@ const ProductDetail = () => {
   const isInCart = useCartStore(state => state.isInCart);
   const { toggleWishlist, isInWishlist } = useWishlistStore();
   const isWishlisted = product ? isInWishlist(product._id) : false;
-  const isProductInCart = product ? isInCart(product._id) : false;
+  const isProductInCart = product ? isInCart(product._id, selectedSize) : false;
 
   const addToCartRef = useRef(null);
 

@@ -30,7 +30,12 @@ export const useCartStore = create()(
       }),
       
       removeItem: (id, size) => set((state) => ({
-        items: state.items.filter((item) => !(item._id === id && item.selectedSize === size))
+        items: state.items.filter((item) => {
+          if (size !== undefined) {
+            return !(item._id === id && item.selectedSize === size);
+          }
+          return item._id !== id;
+        })
       })),
       
       updateQuantity: (id, size, quantity) => set((state) => ({
@@ -64,7 +69,12 @@ export const useCartStore = create()(
 
       getTotal: () => get().items.reduce((sum, item) => sum + (item.price * item.quantity), 0),
       getItemCount: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
-      isInCart: (id) => get().items.some(item => item._id === id),
+      isInCart: (id, size) => get().items.some(item => {
+        if (size !== undefined) {
+          return item._id === id && item.selectedSize === size;
+        }
+        return item._id === id;
+      }),
     }),
     {
       name: 'zeecart-cart-storage',
